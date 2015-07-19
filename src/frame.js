@@ -1,6 +1,6 @@
 function Frame() {
   this.rollsRemaining = 2;
-  this.score = 0;
+  this.scoreRecord = [];
 };
 
 
@@ -12,10 +12,22 @@ Frame.prototype.registerRoll = function(numberOfPins) {
   if (numberOfPins === 10) {
     this.rollsRemaining -= 2;
   };
-  this.score += numberOfPins;
-  this.rollsRemaining--;
+  this.scoreRecord.push(numberOfPins);
+  this.rollsRemaining --;
 };
 
-Frame.prototype.totalScore = function () {
-  return this.score;
+Frame.prototype.totalScore = function() {
+  var scoreCount = 0;
+  for (var i = 0; i < this.scoreRecord.length; i++) {
+    scoreCount += this.scoreRecord[i];
+  }
+  return scoreCount;
+};
+
+Frame.prototype.isStrike = function() {
+  return (this.totalScore() === 10 && this.scoreRecord.length < 2);
+}
+
+Frame.prototype.isSpare = function() {
+  return (this.totalScore() === 10 && this.scoreRecord.length === 2);
 };
